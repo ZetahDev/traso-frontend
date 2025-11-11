@@ -1,0 +1,179 @@
+---
+const features = [
+  {
+    icon: "📊",
+    title: "Gestión Electoral",
+    description:
+      "Administra candidatos, líderes y votantes de manera eficiente para tus procesos electorales internos.",
+    link: "#",
+  },
+  {
+    icon: "📱",
+    title: "Comunicación Directa",
+    description:
+      "Conecta con tu comunidad a través de múltiples canales de comunicación integrados.",
+    link: "#contacto",
+  },
+  {
+    icon: "📈",
+    title: "Análisis de Datos",
+    description:
+      "Obtén insights y métricas en tiempo real sobre la participación de tu movimiento.",
+    link: "#",
+  },
+  {
+    icon: "👥",
+    title: "Gestión de Miembros",
+    description:
+      "Organiza y administra todos los participantes de tu movimiento social.",
+    link: "#",
+  },
+  {
+    icon: "🗳️",
+    title: "Votaciones Digitales",
+    description:
+      "Realiza consultas y votaciones internas de forma segura y transparente.",
+    link: "#",
+  },
+  {
+    icon: "📢",
+    title: "Campañas Sociales",
+    description:
+      "Crea y gestiona campañas de difusión para amplificar tu mensaje.",
+    link: "#",
+  },
+];
+---
+
+<section class="features" id="servicios">
+  <div class="container">
+    <div class="features-header">
+      <h2>Nuestros Servicios</h2>
+      <p>Herramientas diseñadas para fortalecer tu movimiento social</p>
+    </div>
+
+    <div class="features-grid">
+      {
+        features.map((feature) => (
+          <a href={feature.link} class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+            <span class="feature-arrow">→</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    padding: 5rem 2rem;
+    background: white;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .features-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .features-header h2 {
+    font-size: 2.5rem;
+    color: #1a1a2e;
+    margin-bottom: 1rem;
+  }
+
+  .features-header p {
+    font-size: 1.25rem;
+    color: #4a5568;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #3b5998;
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(59, 89, 152, 0.2);
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    color: #1a1a2e;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-card p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .feature-arrow {
+    color: #3b5998;
+    font-size: 1.5rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover .feature-arrow {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .features {
+      padding: 3rem 1.5rem;
+    }
+
+    .features-header h2 {
+      font-size: 2rem;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

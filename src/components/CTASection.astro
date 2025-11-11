@@ -1,0 +1,401 @@
+---
+
+---
+
+<section class="cta-section">
+  <div class="cta-container">
+    <div class="cta-content">
+      <h2>¿Listo para transformar tu movimiento?</h2>
+      <p>Únete a nuestra comunidad y comienza a transformar tu organización</p>
+      <div class="cta-actions">
+        <a href="#contacto" class="btn-cta primary"> Contáctanos </a>
+        <a href="#servicios" class="btn-cta secondary"> Ver Servicios </a>
+      </div>
+    </div>
+    <div class="cta-stats">
+      <div class="stat">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Votantes Registrados</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Satisfacción</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Disponibilidad</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-section" id="nosotros">
+  <div class="about-container">
+    <div class="about-content">
+      <h2>Sobre TRASO</h2>
+      <p class="about-intro">
+        Somos una plataforma tecnológica diseñada para empoderar movimientos
+        sociales y organizaciones comunitarias en la gestión de sus procesos
+        democráticos.
+      </p>
+      <div class="about-features">
+        <div class="about-feature">
+          <span class="check">✓</span>
+          <p>Tecnología accesible y fácil de usar</p>
+        </div>
+        <div class="about-feature">
+          <span class="check">✓</span>
+          <p>Seguridad y transparencia en todos los procesos</p>
+        </div>
+        <div class="about-feature">
+          <span class="check">✓</span>
+          <p>Soporte técnico dedicado</p>
+        </div>
+        <div class="about-feature">
+          <span class="check">✓</span>
+          <p>Actualizaciones constantes basadas en feedback</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-image">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1"></stop>
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1"
+            ></stop>
+          </linearGradient>
+        </defs>
+        <rect
+          x="50"
+          y="100"
+          width="300"
+          height="200"
+          rx="15"
+          fill="url(#grad2)"
+          opacity="0.8"></rect>
+        <circle cx="120" cy="150" r="15" fill="white"></circle>
+        <circle cx="200" cy="150" r="15" fill="white"></circle>
+        <circle cx="280" cy="150" r="15" fill="white"></circle>
+        <rect x="100" y="200" width="200" height="60" rx="30" fill="white"
+        ></rect>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contacto">
+  <div class="contact-container">
+    <h2>Contáctanos</h2>
+    <p class="contact-subtitle">
+      ¿Tienes preguntas? Estamos aquí para ayudarte
+    </p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="contact-icon">📧</span>
+          <div>
+            <h4>Email</h4>
+            <p>contacto@traso.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📱</span>
+          <div>
+            <h4>Teléfono</h4>
+            <p>+57 300 123 4567</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🌐</span>
+          <div>
+            <h4>Redes Sociales</h4>
+            <p>@TrasoOficial</p>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form">
+        <input type="text" placeholder="Nombre" required />
+        <input type="email" placeholder="Email" required />
+        <textarea placeholder="Mensaje" rows="5" required></textarea>
+        <button type="submit" class="btn-submit">Enviar Mensaje</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    padding: 4rem 2rem;
+    color: white;
+  }
+
+  .cta-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .cta-content {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-cta {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-cta.primary {
+    background: white;
+    color: #3b5998;
+  }
+
+  .btn-cta.secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-cta:hover {
+    transform: translateY(-2px);
+  }
+
+  .cta-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+
+  /* About Section */
+  .about-section {
+    padding: 5rem 2rem;
+    background: #f7fafc;
+  }
+
+  .about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-content h2 {
+    font-size: 2.5rem;
+    color: #1a1a2e;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-intro {
+    font-size: 1.1rem;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .about-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .about-feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .check {
+    background: #27ae60;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .about-feature p {
+    color: #2d3748;
+    margin: 0;
+  }
+
+  .about-image svg {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  /* Contact Section */
+  .contact-section {
+    padding: 5rem 2rem;
+    background: white;
+  }
+
+  .contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .contact-container h2 {
+    font-size: 2.5rem;
+    color: #1a1a2e;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .contact-subtitle {
+    text-align: center;
+    color: #4a5568;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: #f7fafc;
+    border-radius: 12px;
+  }
+
+  .contact-icon {
+    font-size: 2rem;
+  }
+
+  .contact-item h4 {
+    color: #1a1a2e;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .contact-item p {
+    color: #4a5568;
+    margin: 0;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: #3b5998;
+  }
+
+  .btn-submit {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 968px) {
+    .about-container,
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .about-image {
+      order: -1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .cta-content h2 {
+      font-size: 2rem;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+    }
+
+    .btn-cta {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+</style>

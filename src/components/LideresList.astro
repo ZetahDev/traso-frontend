@@ -1,0 +1,118 @@
+---
+// Componente para mostrar la lista de líderes
+---
+
+<h3>Líderes Registrados</h3>
+<div id="lideres-list" class="list-container">
+  <div class="text-center text-muted" style="padding: 20px;">
+    Cargando líderes...
+  </div>
+</div>
+
+<script>
+  import { lideresAPI } from '@lib/api';
+
+  async function loadLideres() {
+    try {
+      const lideres = await lideresAPI.getAll();
+      const container = document.getElementById('lideres-list');
+
+      if (!container) return;
+
+      if (lideres.length === 0) {
+        container.innerHTML =
+          '<div class="text-center text-muted" style="padding: 20px;">No hay líderes registrados</div>';
+        return;
+      }
+
+      container.innerHTML = lideres
+        .map(
+          (lider) => `
+        <div class="list-item" data-id="${lider.id}">
+          <div class="lider-info">${lider.nombre}</div>
+          <div class="lider-details">
+            ${lider.dni ? `DNI: ${lider.dni}` : 'Sin DNI'} | 
+            ${lider.telefono || 'Sin teléfono'} |
+            ${lider.candidato_nombre ? `Candidato: ${lider.candidato_nombre}` : 'Sin candidato'}
+          </div>
+          <div style="margin-top: 8px;">
+            <button class="edit-btn" onclick="editarLider('${lider.id}')">✏️ Editar</button>
+            <button class="delete-btn" onclick="eliminarLider('${lider.id}')">🗑️ Eliminar</button>
+          </div>
+        </div>
+      `,
+        )
+        .join('');
+    } catch (error: any) {
+      console.error('Error loading lideres:', error);
+      const container = document.getElementById('lideres-list');
+      if (container) {
+        container.innerHTML =
+          '<div class="text-center text-muted" style="padding: 20px;">Error cargando líderes</div>';
+      }
+    }
+  }
+
+  // Cargar al inicio
+  document.addEventListener('DOMContentLoaded', loadLideres);
+
+  // Escuchar evento personalizado
+  window.addEventListener('loadLideres', loadLideres);
+
+  // Funciones globales
+  (window as any).editarLider = async (id: string) => {
+    console.log('Editar líder:', id);
+    // TODO: Implementar modal de edición
+  };
+
+  (window as any).eliminarLider = async (id: string) => {
+    if (confirm('¿Está seguro de eliminar este líder?')) {
+      try {
+        await lideresAPI.delete(id);
+        (window as any).showMessage('Líder eliminado exitosamente', 'success');
+        loadLideres();
+      } catch (error: any) {
+        (window as any).showMessage(
+          error.message || 'Error al eliminar líder',
+          'error',
+        );
+      }
+    }
+  };
+</script>
+
+<style>
+  .edit-btn,
+  .delete-btn {
+    background: none;
+    border: 1px solid transparent;
+    padding: 8px;
+    margin: 0 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    min-width: auto;
+  }
+
+  .edit-btn:hover {
+    background-color: #e8f4ff;
+    border-color: var(--color-primary);
+  }
+
+  .delete-btn:hover {
+    background-color: #ffebee;
+    border-color: var(--color-danger);
+  }
+
+  .lider-info {
+    font-weight: bold;
+    color: var(--color-text-primary);
+  }
+
+  .lider-details {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 5px;
+  }
+</style>

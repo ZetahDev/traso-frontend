@@ -1,0 +1,49 @@
+---
+// Componente de botón para cambiar tema oscuro/claro
+---
+
+<button id="toggle-dark" class="theme-toggle"> 🌙 Modo oscuro </button>
+
+<style>
+  .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #23262e;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: var(--shadow-md);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const darkBtn = document.getElementById('toggle-dark');
+    const body = document.body;
+    let darkMode = false;
+
+    // Verificar preferencia del usuario
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      darkMode = true;
+      body.classList.add('dark-mode');
+      if (darkBtn) darkBtn.textContent = '☀️ Modo claro';
+    }
+
+    // Toggle al hacer clic
+    darkBtn?.addEventListener('click', () => {
+      darkMode = !darkMode;
+      body.classList.toggle('dark-mode');
+      if (darkBtn) {
+        darkBtn.textContent = darkMode ? '☀️ Modo claro' : '🌙 Modo oscuro';
+      }
+    });
+  });
+</script>

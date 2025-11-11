@@ -1,0 +1,122 @@
+---
+// Componente para mostrar la lista de candidatos
+---
+
+<h3>Candidatos Registrados</h3>
+<div id="candidatos-list" class="list-container">
+  <div class="text-center text-muted" style="padding: 20px;">
+    Cargando candidatos...
+  </div>
+</div>
+
+<script>
+  import { candidatosAPI } from '@lib/api';
+  import type { Candidato } from '@lib/types';
+
+  async function loadCandidatos() {
+    try {
+      const candidatos = await candidatosAPI.getAll();
+      const container = document.getElementById('candidatos-list');
+
+      if (!container) return;
+
+      if (candidatos.length === 0) {
+        container.innerHTML =
+          '<div class="text-center text-muted" style="padding: 20px;">No hay candidatos registrados</div>';
+        return;
+      }
+
+      container.innerHTML = candidatos
+        .map(
+          (candidato) => `
+        <div class="list-item" data-id="${candidato.id}">
+          <div class="lider-info">${candidato.nombre}</div>
+          <div class="lider-details">
+            ${candidato.dni ? `DNI: ${candidato.dni}` : 'Sin DNI'} | 
+            ${candidato.tipo_candidato ? `Tipo: ${candidato.tipo_candidato}` : 'Sin tipo'} |
+            ${candidato.partido_politico || 'Sin partido'}
+          </div>
+          <div style="margin-top: 8px;">
+            <button class="edit-btn" onclick="editarCandidato('${candidato.id}')">✏️ Editar</button>
+            <button class="delete-btn" onclick="eliminarCandidato('${candidato.id}')">🗑️ Eliminar</button>
+          </div>
+        </div>
+      `,
+        )
+        .join('');
+    } catch (error: any) {
+      console.error('Error loading candidatos:', error);
+      const container = document.getElementById('candidatos-list');
+      if (container) {
+        container.innerHTML =
+          '<div class="text-center text-muted" style="padding: 20px;">Error cargando candidatos</div>';
+      }
+    }
+  }
+
+  // Cargar al inicio
+  document.addEventListener('DOMContentLoaded', loadCandidatos);
+
+  // Escuchar evento personalizado
+  window.addEventListener('loadCandidatos', loadCandidatos);
+
+  // Funciones globales para editar y eliminar
+  (window as any).editarCandidato = async (id: string) => {
+    console.log('Editar candidato:', id);
+    // TODO: Implementar modal de edición
+  };
+
+  (window as any).eliminarCandidato = async (id: string) => {
+    if (confirm('¿Está seguro de eliminar este candidato?')) {
+      try {
+        await candidatosAPI.delete(id);
+        (window as any).showMessage(
+          'Candidato eliminado exitosamente',
+          'success',
+        );
+        loadCandidatos();
+      } catch (error: any) {
+        (window as any).showMessage(
+          error.message || 'Error al eliminar candidato',
+          'error',
+        );
+      }
+    }
+  };
+</script>
+
+<style>
+  .edit-btn,
+  .delete-btn {
+    background: none;
+    border: 1px solid transparent;
+    padding: 8px;
+    margin: 0 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    min-width: auto;
+  }
+
+  .edit-btn:hover {
+    background-color: #e8f4ff;
+    border-color: var(--color-primary);
+  }
+
+  .delete-btn:hover {
+    background-color: #ffebee;
+    border-color: var(--color-danger);
+  }
+
+  .lider-info {
+    font-weight: bold;
+    color: var(--color-text-primary);
+  }
+
+  .lider-details {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-top: 5px;
+  }
+</style>

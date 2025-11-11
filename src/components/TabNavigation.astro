@@ -1,0 +1,86 @@
+---
+// Componente de navegación por pestañas
+interface Props {
+  activeTab?: string;
+}
+
+const { activeTab = 'candidatos' } = Astro.props;
+
+import { TAB_TITLES } from '@lib/constants';
+---
+
+<div class="tabs">
+  {
+    Object.entries(TAB_TITLES).map(([key, title]) => (
+      <button class={`tab ${activeTab === key ? 'active' : ''}`} data-tab={key}>
+        {title}
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .tabs {
+    display: flex;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .tab {
+    flex: 1;
+    padding: var(--spacing-md);
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 16px;
+    color: var(--color-text-primary);
+    transition: all 0.3s;
+  }
+
+  .tab.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--radius-sm);
+  }
+
+  .tab:hover:not(.active) {
+    background-color: var(--color-bg-hover);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.getAttribute('data-tab');
+
+        // Remover active de todas las tabs
+        tabs.forEach((t) => t.classList.remove('active'));
+        contents.forEach((c) => c.classList.remove('active'));
+
+        // Activar la tab clickeada
+        tab.classList.add('active');
+        const content = document.getElementById(`${tabName}-tab`);
+        if (content) {
+          content.classList.add('active');
+        }
+
+        // Cargar datos según la pestaña
+        if (tabName === 'candidatos') {
+          window.dispatchEvent(new CustomEvent('loadCandidatos'));
+        } else if (tabName === 'lideres') {
+          window.dispatchEvent(new CustomEvent('loadLideres'));
+        } else if (tabName === 'votantes') {
+          window.dispatchEvent(new CustomEvent('loadVotantes'));
+        } else if (tabName === 'listado') {
+          window.dispatchEvent(new CustomEvent('loadListado'));
+        }
+      });
+    });
+  });
+</script>

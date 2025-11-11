@@ -1,0 +1,23 @@
+---
+// Componente de mensajes de éxito/error
+---
+
+<div id="success" class="message success" style="display: none;"></div>
+<div id="error" class="message error" style="display: none;"></div>
+
+<script>
+  function showMessage(message: string, type: 'success' | 'error' = 'success') {
+    const element = document.getElementById(type);
+    if (element) {
+      element.textContent = message;
+      element.style.display = 'block';
+
+      setTimeout(() => {
+        element.style.display = 'none';
+      }, 3000);
+    }
+  }
+
+  // Hacer la función global
+  (window as any).showMessage = showMessage;
+</script>

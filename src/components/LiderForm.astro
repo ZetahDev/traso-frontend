@@ -1,0 +1,149 @@
+---
+import { FORM_LABELS } from '@lib/constants';
+---
+
+<form id="liderForm">
+  <div class="form-row">
+    <div class="form-group">
+      <label for="lider_nombre"
+        >{FORM_LABELS.lider_nombre} <span class="required">*</span></label
+      >
+      <input type="text" id="lider_nombre" name="nombre" required />
+    </div>
+    <div class="form-group">
+      <label for="lider_dni"
+        >{FORM_LABELS.lider_dni} <span class="optional">(opcional)</span></label
+      >
+      <input type="text" id="lider_dni" name="dni" />
+    </div>
+    <div class="form-group">
+      <label for="lider_edad"
+        >{FORM_LABELS.lider_edad}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="number" id="lider_edad" name="edad" min="18" max="100" />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="lider_telefono"
+        >{FORM_LABELS.lider_telefono}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="tel" id="lider_telefono" name="telefono" />
+    </div>
+    <div class="form-group">
+      <label for="lider_email"
+        >{FORM_LABELS.lider_email}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="email" id="lider_email" name="email" />
+    </div>
+    <div class="form-group">
+      <label for="lider_participacion"
+        >{FORM_LABELS.lider_participacion}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="text" id="lider_participacion" name="nivel_participacion" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="lider_candidato"
+      >{FORM_LABELS.lider_candidato}
+      <span class="optional">(opcional)</span></label
+    >
+    <select id="lider_candidato" name="candidato_id">
+      <option value="">Sin asignar</option>
+    </select>
+  </div>
+
+  <button type="submit">👥 Crear Líder</button>
+  <button type="button" id="btn-refresh-lideres" class="secondary"
+    >🔄 Actualizar Lista</button
+  >
+</form>
+
+<script>
+  import { lideresAPI, candidatosAPI } from '@lib/api';
+  import { MESSAGES } from '@lib/constants';
+
+  async function loadCandidatosForSelect() {
+    try {
+      const candidatos = await candidatosAPI.getAll();
+      const select = document.getElementById(
+        'lider_candidato',
+      ) as HTMLSelectElement;
+      if (select) {
+        select.innerHTML = '<option value="">Sin asignar</option>';
+        candidatos.forEach((candidato) => {
+          const option = document.createElement('option');
+          option.value = candidato.id;
+          const tipoText = candidato.tipo_candidato
+            ? ` (${candidato.tipo_candidato})`
+            : '';
+          option.textContent = `${candidato.nombre}${tipoText}`;
+          select.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error('Error loading candidatos:', error);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('liderForm') as HTMLFormElement;
+
+    loadCandidatosForSelect();
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data: any = {};
+      let candidatoId: string | null = null;
+
+      for (let [key, value] of formData.entries()) {
+        if (typeof value === 'string' && value.trim() !== '') {
+          if (key === 'candidato_id') {
+            candidatoId = value.trim();
+          } else {
+            data[key] = value.trim();
+            if (key === 'edad') {
+              data[key] = parseInt(value);
+            }
+          }
+        }
+      }
+
+      try {
+        const lider = await lideresAPI.create(data);
+
+        if (candidatoId && lider.id) {
+          await lideresAPI.assignToCandidato(lider.id, candidatoId);
+        }
+
+        (window as any).showMessage(MESSAGES.success.lider_created, 'success');
+        form.reset();
+        window.dispatchEvent(new CustomEvent('loadLideres'));
+      } catch (error: any) {
+        (window as any).showMessage(
+          error.message || MESSAGES.error.create_lider,
+          'error',
+        );
+      }
+    });
+
+    document
+      .getElementById('btn-refresh-lideres')
+      ?.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('loadLideres'));
+        loadCandidatosForSelect();
+      });
+
+    window.addEventListener('loadLideres', () => {
+      loadCandidatosForSelect();
+    });
+  });
+</script>

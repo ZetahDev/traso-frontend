@@ -1,0 +1,21 @@
+{
+  "name": "traso-frontend",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Frontend para el Sistema de Gestión Electoral TRASO",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.3.0",
+    "@types/node": "^24.9.2",
+    "typescript": "^5.3.0"
+  }
+}

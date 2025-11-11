@@ -1,0 +1,483 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ThemeToggle from '@components/ThemeToggle.astro';
+import MessageDisplay from '@components/MessageDisplay.astro';
+import TabNavigation from '@components/TabNavigation.astro';
+import CandidatoForm from '@components/CandidatoForm.astro';
+import CandidatosList from '@components/CandidatosList.astro';
+import LiderForm from '@components/LiderForm.astro';
+import LideresList from '@components/LideresList.astro';
+import VotanteForm from '@components/VotanteForm.astro';
+import { APP_TITLE } from '@lib/constants';
+---
+
+<Layout title={APP_TITLE}>
+  <ThemeToggle />
+
+  <div
+    class="container"
+    style="max-width: 1200px; margin: 20px auto; padding: 20px;"
+  >
+    <h1>📊 {APP_TITLE}</h1>
+
+    <TabNavigation activeTab="candidatos" />
+
+    <MessageDisplay />
+
+    <!-- Tab: Gestión de Candidatos -->
+    <div id="candidatos-tab" class="tab-content active">
+      <h2>🏛️ Gestión de Candidatos</h2>
+      <CandidatoForm />
+      <CandidatosList />
+    </div>
+
+    <!-- Tab: Gestión de Líderes -->
+    <div id="lideres-tab" class="tab-content">
+      <h2>👥 Gestión de Líderes</h2>
+      <LiderForm />
+      <LideresList />
+    </div>
+
+    <!-- Tab: Registro de Votantes -->
+    <div id="votantes-tab" class="tab-content">
+      <h2>📋 Registro de Votantes</h2>
+      <VotanteForm />
+
+      <h3>👥 Votantes por Líder</h3>
+      <div id="votantes-por-lider" class="list-container">
+        <div class="text-center text-muted" style="padding: 20px;">
+          Cargando organización de votantes...
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Listado Completo -->
+    <div id="listado-tab" class="tab-content">
+      <h2>📊 Listado Completo de Votantes</h2>
+
+      <!-- Filtros -->
+      <div
+        class="filtros-container"
+        style="background-color: var(--color-bg-secondary); padding: 20px; border-radius: 10px; margin-bottom: 20px;"
+      >
+        <h3
+          style="margin-top: 0; border-bottom: 1px solid var(--color-border); padding-bottom: 10px;"
+        >
+          🔍 Filtros de Búsqueda
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="filtro_nombre">Nombre</label>
+            <input
+              type="text"
+              id="filtro_nombre"
+              placeholder="Buscar por nombre..."
+            />
+          </div>
+          <div class="form-group">
+            <label for="filtro_dni">DNI</label>
+            <input
+              type="text"
+              id="filtro_dni"
+              placeholder="Buscar por DNI..."
+            />
+          </div>
+          <div class="form-group">
+            <label for="filtro_lider">Líder</label>
+            <select id="filtro_lider">
+              <option value="">Todos los líderes</option>
+            </select>
+          </div>
+          <div class="form-group" style="display: flex; align-items: flex-end;">
+            <button
+              type="button"
+              onclick="limpiarFiltros()"
+              class="secondary"
+              style="width: 100%;">🔄 Limpiar Filtros</button
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Estadísticas -->
+      <div
+        class="estadisticas-container"
+        style="background-color: #e8f5e8; padding: 15px; border-radius: 10px; margin-bottom: 20px;"
+      >
+        <div class="form-row" style="margin-bottom: 0;">
+          <div class="form-group text-center">
+            <strong>Total Mostrado:</strong>
+            <span id="total_mostrado">0</span>
+          </div>
+          <div class="form-group text-center">
+            <strong>Total Registrados:</strong>
+            <span id="total_registrados">0</span>
+          </div>
+          <div class="form-group text-center">
+            <strong>Con Candidato:</strong>
+            <span id="con_candidato">0</span>
+          </div>
+          <div class="form-group text-center">
+            <strong>Sin Líder:</strong>
+            <span id="sin_lider">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de votantes -->
+      <div
+        class="tabla-container"
+        style="overflow-x: auto; border: 1px solid var(--color-border); border-radius: 10px;"
+      >
+        <table id="tabla_votantes">
+          <thead>
+            <tr>
+              <th onclick="ordenarTabla('nombre')"
+                >Nombre <span id="orden_nombre">⏺️</span></th
+              >
+              <th onclick="ordenarTabla('dni')"
+                >DNI <span id="orden_dni">⏺️</span></th
+              >
+              <th onclick="ordenarTabla('telefono')"
+                >Teléfono <span id="orden_telefono">⏺️</span></th
+              >
+              <th onclick="ordenarTabla('lider')"
+                >Líder <span id="orden_lider">⏺️</span></th
+              >
+              <th onclick="ordenarTabla('candidato')"
+                >Candidato <span id="orden_candidato">⏺️</span></th
+              >
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla_votantes_body">
+            <tr>
+              <td
+                colspan="6"
+                class="text-center text-muted"
+                style="padding: 30px;"
+              >
+                Cargando votantes...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .filtros-container,
+  .estadisticas-container {
+    transition: background-color 0.3s;
+  }
+
+  body.dark-mode .filtros-container {
+    background-color: var(--color-bg-primary) !important;
+  }
+
+  body.dark-mode .estadisticas-container {
+    background-color: #223a2a !important;
+  }
+</style>
+
+<script>
+  import { votantesAPI, lideresAPI } from '@lib/api';
+  import type { VotanteConInfo } from '@lib/types';
+
+  let todosLosVotantes: VotanteConInfo[] = [];
+  let votantesFiltrados: VotanteConInfo[] = [];
+
+  // Cargar votantes por líder
+  async function loadVotantesPorLider() {
+    try {
+      const [lideres, votantes] = await Promise.all([
+        lideresAPI.getAll(),
+        votantesAPI.getAll(),
+      ]);
+
+      const container = document.getElementById('votantes-por-lider');
+      if (!container) return;
+
+      if (lideres.length === 0) {
+        container.innerHTML =
+          '<div class="text-center text-muted" style="padding: 20px;">No hay líderes registrados</div>';
+        return;
+      }
+
+      const votantesPorLider: any = {};
+      lideres.forEach((lider) => {
+        votantesPorLider[lider.id] = { lider, votantes: [] };
+      });
+
+      votantes.forEach((votante) => {
+        if (votante.lider_id && votantesPorLider[votante.lider_id]) {
+          votantesPorLider[votante.lider_id].votantes.push(votante);
+        }
+      });
+
+      let html = '';
+      Object.values(votantesPorLider).forEach(({ lider, votantes }: any) => {
+        html += `
+          <div class="lider-accordion">
+            <div class="lider-header" onclick="toggleVotantesLider('${lider.id}')">
+              <span class="lider-title">${lider.nombre}</span>
+              <span class="lider-stats">${votantes.length} votantes</span>
+            </div>
+            <div class="votantes-content" id="votantes-${lider.id}">
+              ${
+                votantes.length > 0
+                  ? votantes
+                      .map(
+                        (v: any) => `
+                <div class="votante-item">
+                  <div class="votante-name">${v.nombre}</div>
+                  <div class="votante-info">${v.telefono} ${v.dni ? `| DNI: ${v.dni}` : ''}</div>
+                </div>
+              `,
+                      )
+                      .join('')
+                  : '<div class="sin-votantes">No hay votantes asignados</div>'
+              }
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    } catch (error) {
+      console.error('Error loading votantes por lider:', error);
+    }
+  }
+
+  (window as any).toggleVotantesLider = (liderId: string) => {
+    const content = document.getElementById(`votantes-${liderId}`);
+    if (content) {
+      content.classList.toggle('expanded');
+    }
+  };
+
+  // Cargar listado completo
+  async function loadListadoCompleto() {
+    try {
+      const [lideres, votantes, candidatos] = await Promise.all([
+        lideresAPI.getAll(),
+        votantesAPI.getAll(),
+        (window as any).candidatosAPI?.getAll() || Promise.resolve([]),
+      ]);
+
+      const lideresMap: any = {};
+      lideres.forEach((lider) => {
+        lideresMap[lider.id] = lider;
+      });
+
+      todosLosVotantes = votantes.map((votante) => ({
+        ...votante,
+        lider_nombre:
+          votante.lider_id && lideresMap[votante.lider_id]
+            ? lideresMap[votante.lider_id].nombre
+            : 'Sin asignar',
+        candidato_nombre: 'Sin asignar',
+      }));
+
+      aplicarFiltros();
+    } catch (error) {
+      console.error('Error loading listado:', error);
+    }
+  }
+
+  function aplicarFiltros() {
+    const filtroNombre =
+      (
+        document.getElementById('filtro_nombre') as HTMLInputElement
+      )?.value.toLowerCase() || '';
+    const filtroDni =
+      (
+        document.getElementById('filtro_dni') as HTMLInputElement
+      )?.value.toLowerCase() || '';
+    const filtroLider =
+      (document.getElementById('filtro_lider') as HTMLSelectElement)?.value ||
+      '';
+
+    votantesFiltrados = todosLosVotantes.filter((votante) => {
+      if (filtroNombre && !votante.nombre.toLowerCase().includes(filtroNombre))
+        return false;
+      if (
+        filtroDni &&
+        votante.dni &&
+        !votante.dni.toLowerCase().includes(filtroDni)
+      )
+        return false;
+      if (filtroLider && votante.lider_id !== filtroLider) return false;
+      return true;
+    });
+
+    mostrarTablaVotantes();
+    actualizarEstadisticas();
+  }
+
+  function mostrarTablaVotantes() {
+    const tbody = document.getElementById('tabla_votantes_body');
+    if (!tbody) return;
+
+    if (votantesFiltrados.length === 0) {
+      tbody.innerHTML =
+        '<tr><td colspan="6" class="text-center text-muted" style="padding: 30px;">No se encontraron votantes</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = votantesFiltrados
+      .map(
+        (votante) => `
+      <tr>
+        <td>${votante.nombre}</td>
+        <td>${votante.dni || 'N/A'}</td>
+        <td>${votante.telefono}</td>
+        <td>${votante.lider_nombre}</td>
+        <td>${votante.candidato_nombre}</td>
+        <td>
+          <button class="edit-btn" onclick="editarVotante('${votante.id}')">✏️</button>
+          <button class="delete-btn" onclick="eliminarVotante('${votante.id}')">🗑️</button>
+        </td>
+      </tr>
+    `,
+      )
+      .join('');
+  }
+
+  function actualizarEstadisticas() {
+    document.getElementById('total_mostrado')!.textContent =
+      votantesFiltrados.length.toString();
+    document.getElementById('total_registrados')!.textContent =
+      todosLosVotantes.length.toString();
+    document.getElementById('con_candidato')!.textContent = '0';
+    document.getElementById('sin_lider')!.textContent = todosLosVotantes
+      .filter((v) => v.lider_nombre === 'Sin asignar')
+      .length.toString();
+  }
+
+  (window as any).limpiarFiltros = () => {
+    (document.getElementById('filtro_nombre') as HTMLInputElement).value = '';
+    (document.getElementById('filtro_dni') as HTMLInputElement).value = '';
+    (document.getElementById('filtro_lider') as HTMLSelectElement).value = '';
+    aplicarFiltros();
+  };
+
+  (window as any).ordenarTabla = (campo: string) => {
+    console.log('Ordenar por:', campo);
+  };
+
+  (window as any).editarVotante = (id: string) => {
+    console.log('Editar votante:', id);
+  };
+
+  (window as any).eliminarVotante = async (id: string) => {
+    if (confirm('¿Está seguro de eliminar este votante?')) {
+      try {
+        await votantesAPI.delete(id);
+        (window as any).showMessage(
+          'Votante eliminado exitosamente',
+          'success',
+        );
+        loadListadoCompleto();
+      } catch (error: any) {
+        (window as any).showMessage(
+          error.message || 'Error al eliminar votante',
+          'error',
+        );
+      }
+    }
+  };
+
+  // Event listeners
+  window.addEventListener('loadVotantes', loadVotantesPorLider);
+  window.addEventListener('loadListado', loadListadoCompleto);
+
+  // Aplicar filtros al cambiar inputs
+  document.addEventListener('DOMContentLoaded', () => {
+    ['filtro_nombre', 'filtro_dni', 'filtro_lider'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', aplicarFiltros);
+    });
+  });
+</script>
+
+<style>
+  .lider-accordion {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .lider-header {
+    background-color: var(--color-bg-secondary);
+    padding: var(--spacing-md);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+  }
+
+  .lider-header:hover {
+    background-color: var(--color-bg-hover);
+  }
+
+  .lider-title {
+    font-weight: bold;
+    color: var(--color-text-primary);
+  }
+
+  .lider-stats {
+    font-size: 12px;
+    color: var(--color-text-muted);
+  }
+
+  .votantes-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .votantes-content.expanded {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .votante-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--color-border-light);
+    background-color: var(--color-bg-secondary);
+  }
+
+  .votante-item:hover {
+    background-color: var(--color-bg-hover);
+  }
+
+  .votante-name {
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .votante-info {
+    font-size: 12px;
+    color: var(--color-text-muted);
+  }
+
+  .sin-votantes {
+    padding: 20px;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+</style>

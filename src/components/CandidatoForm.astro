@@ -1,0 +1,126 @@
+---
+import { FORM_LABELS, TIPO_CANDIDATO_OPTIONS } from '@lib/constants';
+---
+
+<form id="candidatoForm">
+  <div class="form-row">
+    <div class="form-group">
+      <label for="candidato_nombre"
+        >{FORM_LABELS.candidato_nombre} <span class="required">*</span></label
+      >
+      <input type="text" id="candidato_nombre" name="nombre" required />
+    </div>
+    <div class="form-group">
+      <label for="candidato_dni"
+        >{FORM_LABELS.candidato_dni}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="text" id="candidato_dni" name="dni" />
+    </div>
+    <div class="form-group">
+      <label for="candidato_edad"
+        >{FORM_LABELS.candidato_edad}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="number" id="candidato_edad" name="edad" min="18" max="100" />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="candidato_telefono"
+        >{FORM_LABELS.candidato_telefono}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="tel" id="candidato_telefono" name="telefono" />
+    </div>
+    <div class="form-group">
+      <label for="candidato_email"
+        >{FORM_LABELS.candidato_email}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="email" id="candidato_email" name="email" />
+    </div>
+    <div class="form-group">
+      <label for="candidato_tipo"
+        >{FORM_LABELS.candidato_tipo}
+        <span class="optional">(opcional)</span></label
+      >
+      <select id="candidato_tipo" name="tipo_candidato">
+        {
+          TIPO_CANDIDATO_OPTIONS.map((opt) => (
+            <option value={opt.value}>{opt.label}</option>
+          ))
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="candidato_partido"
+        >{FORM_LABELS.candidato_partido}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="text" id="candidato_partido" name="partido_politico" />
+    </div>
+    <div class="form-group">
+      <label for="candidato_propuesta"
+        >{FORM_LABELS.candidato_propuesta}
+        <span class="optional">(opcional)</span></label
+      >
+      <input type="text" id="candidato_propuesta" name="propuesta_electoral" />
+    </div>
+  </div>
+
+  <button type="submit">🏛️ Crear Candidato</button>
+  <button type="button" id="btn-refresh-candidatos" class="secondary"
+    >🔄 Actualizar Lista</button
+  >
+</form>
+
+<script>
+  import { candidatosAPI } from '@lib/api';
+  import { MESSAGES } from '@lib/constants';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('candidatoForm') as HTMLFormElement;
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data: any = {};
+
+      for (let [key, value] of formData.entries()) {
+        if (typeof value === 'string' && value.trim() !== '') {
+          data[key] = value.trim();
+          if (key === 'edad') {
+            data[key] = parseInt(value);
+          }
+        }
+      }
+
+      try {
+        await candidatosAPI.create(data);
+        (window as any).showMessage(
+          MESSAGES.success.candidato_created,
+          'success',
+        );
+        form.reset();
+        window.dispatchEvent(new CustomEvent('loadCandidatos'));
+      } catch (error: any) {
+        (window as any).showMessage(
+          error.message || MESSAGES.error.create_candidato,
+          'error',
+        );
+      }
+    });
+
+    document
+      .getElementById('btn-refresh-candidatos')
+      ?.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('loadCandidatos'));
+      });
+  });
+</script>

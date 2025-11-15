@@ -1,0 +1,536 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Datos de ejemplo de noticias (esto vendría del backend en producción)
+const noticias = [
+  {
+    id: 1,
+    titulo: "TRASO alcanza los 1,000 afiliados en todo el país",
+    categoria: "Organización",
+    fecha: "2025-11-10",
+    autor: "Dirección Nacional",
+    imagen: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&h=400&fit=crop",
+    resumen: "Un hito histórico para nuestro movimiento. Celebramos el compromiso de miles de colombianos con la transformación social.",
+    contenido: `
+      <p>Este mes alcanzamos una cifra histórica: <strong>1,000 afiliados activos</strong> en más de 20 municipios del país. Este logro representa no solo números, sino el compromiso real de miles de colombianos con la construcción de una sociedad más justa y equitativa.</p>
+      
+      <p>Desde nuestros inicios en 2023, hemos trabajado incansablemente por construir un movimiento político verdaderamente participativo y democrático. Hoy, con presencia en territorios urbanos y rurales, demostramos que la organización comunitaria es posible.</p>
+      
+      <h3>Logros destacados:</h3>
+      <ul>
+        <li>1,000+ militantes activos</li>
+        <li>20+ municipios con presencia</li>
+        <li>50+ líderes territoriales formados</li>
+        <li>15 comités municipales constituidos</li>
+      </ul>
+      
+      <p>Agradecemos a cada persona que ha decidido ser parte de este sueño colectivo. ¡Esto apenas comienza!</p>
+    `,
+    tags: ["hito", "crecimiento", "militancia"]
+  },
+  {
+    id: 2,
+    titulo: "Lanzamiento de la Escuela de Formación Política TRASO",
+    categoria: "Formación",
+    fecha: "2025-11-05",
+    autor: "Comisión de Formación",
+    imagen: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=400&fit=crop",
+    resumen: "Abre la convocatoria para el primer ciclo de cursos gratuitos en liderazgo, participación ciudadana y análisis político.",
+    contenido: `
+      <p>Con gran entusiasmo anunciamos el lanzamiento oficial de la <strong>Escuela de Formación Política TRASO</strong>, un espacio gratuito y abierto para la capacitación de líderes sociales y militantes comprometidos con el cambio.</p>
+      
+      <h3>Cursos disponibles en el primer ciclo:</h3>
+      <ul>
+        <li><strong>Liderazgo Comunitario:</strong> Herramientas para organizar y movilizar comunidades</li>
+        <li><strong>Participación Ciudadana:</strong> Mecanismos de democracia participativa en Colombia</li>
+        <li><strong>Análisis Político:</strong> Cómo entender la coyuntura nacional</li>
+        <li><strong>Comunicación Popular:</strong> Estrategias para difundir nuestro mensaje</li>
+      </ul>
+      
+      <p>Las inscripciones están abiertas hasta el 30 de noviembre. ¡No te pierdas esta oportunidad!</p>
+      
+      <p><a href="/formacion">→ Inscríbete aquí</a></p>
+    `,
+    tags: ["formación", "educación", "liderazgo"]
+  },
+  {
+    id: 3,
+    titulo: "TRASO participa en Foro Nacional sobre Justicia Social",
+    categoria: "Eventos",
+    fecha: "2025-10-28",
+    autor: "Comisión de Justicia Social",
+    imagen: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=400&fit=crop",
+    resumen: "Nuestra delegación presentó propuestas concretas para reducir la desigualdad en Colombia ante organizaciones nacionales.",
+    contenido: `
+      <p>Una delegación de TRASO participó en el <strong>Foro Nacional sobre Justicia Social y Reducción de la Desigualdad</strong>, donde presentamos nuestras propuestas programáticas ante más de 200 organizaciones sociales del país.</p>
+      
+      <h3>Propuestas presentadas:</h3>
+      <ol>
+        <li>Reforma tributaria progresiva</li>
+        <li>Renta básica universal para poblaciones vulnerables</li>
+        <li>Educación superior gratuita y de calidad</li>
+        <li>Acceso universal a servicios de salud</li>
+      </ol>
+      
+      <p>Nuestras propuestas fueron bien recibidas y generaron alianzas estratégicas con otras organizaciones afines.</p>
+    `,
+    tags: ["justicia-social", "propuestas", "alianzas"]
+  },
+  {
+    id: 4,
+    titulo: "Asamblea Territorial en Medellín: 200 asistentes",
+    categoria: "Territorial",
+    fecha: "2025-10-20",
+    autor: "Comité Antioquia",
+    imagen: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=400&fit=crop",
+    resumen: "Exitosa jornada de participación democrática donde se discutieron las prioridades del movimiento en Antioquia.",
+    contenido: `
+      <p>El pasado sábado realizamos nuestra primera <strong>Asamblea Territorial en Medellín</strong>, con la asistencia de más de 200 militantes y simpatizantes de diferentes municipios de Antioquia.</p>
+      
+      <p>Durante la jornada, se trabajó en mesas temáticas sobre:</p>
+      <ul>
+        <li>Movilidad y transporte público</li>
+        <li>Seguridad alimentaria</li>
+        <li>Vivienda digna</li>
+        <li>Empleo juvenil</li>
+      </ul>
+      
+      <p>Los aportes serán sistematizados y presentados en la próxima Asamblea Nacional.</p>
+    `,
+    tags: ["asamblea", "participación", "antioquia"]
+  },
+  {
+    id: 5,
+    titulo: "Campaña de reforestación en zona rural de Cundinamarca",
+    categoria: "Medio Ambiente",
+    fecha: "2025-10-15",
+    autor: "Comisión Ambiental",
+    imagen: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=400&fit=crop",
+    resumen: "Militantes de TRASO plantaron 500 árboles nativos en alianza con comunidades campesinas.",
+    contenido: `
+      <p>Como parte de nuestro compromiso con la <strong>sostenibilidad ambiental</strong>, militantes de TRASO realizaron una jornada de reforestación en la vereda El Porvenir (Cundinamarca), plantando 500 árboles nativos.</p>
+      
+      <p>La actividad contó con la participación de:</p>
+      <ul>
+        <li>40 militantes de TRASO</li>
+        <li>Familias campesinas de la vereda</li>
+        <li>Biólogos de la Universidad Nacional</li>
+      </ul>
+      
+      <p>Esta es la primera de muchas jornadas ambientales que realizaremos en todo el país. ¡El planeta no espera!</p>
+    `,
+    tags: ["medio-ambiente", "acción", "sostenibilidad"]
+  },
+  {
+    id: 6,
+    titulo: "Alianza estratégica con organizaciones de mujeres",
+    categoria: "Género",
+    fecha: "2025-10-08",
+    autor: "Comisión de Género",
+    imagen: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop",
+    resumen: "TRASO firma acuerdo de trabajo conjunto con colectivos feministas para promover la equidad de género.",
+    contenido: `
+      <p>TRASO firmó un <strong>acuerdo de trabajo conjunto</strong> con 5 organizaciones de mujeres y colectivos feministas para promover la equidad de género en la política y la sociedad colombiana.</p>
+      
+      <h3>Compromisos del acuerdo:</h3>
+      <ol>
+        <li>Paridad de género en todas las instancias de TRASO</li>
+        <li>Formación en perspectiva de género para militantes</li>
+        <li>Lucha contra la violencia de género</li>
+        <li>Promoción de liderazgos femeninos</li>
+      </ol>
+      
+      <p>Esta alianza fortalece nuestro compromiso con la justicia social y la igualdad.</p>
+    `,
+    tags: ["género", "alianzas", "equidad"]
+  }
+];
+
+const categorias = [...new Set(noticias.map(n => n.categoria))];
+---
+
+<Layout title="Noticias - TRASO">
+  <main class="noticias-page">
+    <!-- Hero Section -->
+    <section class="hero-noticias">
+      <div class="container">
+        <h1>Noticias y Comunicados</h1>
+        <p class="subtitle">Mantente informado sobre las actividades, logros y propuestas de TRASO</p>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="filtros-section">
+      <div class="container">
+        <div class="filtros">
+          <button class="filtro-btn active" data-categoria="todas">Todas</button>
+          {categorias.map(cat => (
+            <button class="filtro-btn" data-categoria={cat}>{cat}</button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid de Noticias -->
+    <section class="noticias-grid-section">
+      <div class="container">
+        <div class="noticias-grid">
+          {noticias.map(noticia => (
+            <article class="noticia-card" data-categoria={noticia.categoria}>
+              <div class="noticia-imagen">
+                <img src={noticia.imagen} alt={noticia.titulo} />
+                <span class="categoria-badge">{noticia.categoria}</span>
+              </div>
+              <div class="noticia-contenido">
+                <div class="noticia-meta">
+                  <span class="fecha">{new Date(noticia.fecha).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                  <span class="autor">Por {noticia.autor}</span>
+                </div>
+                <h2>{noticia.titulo}</h2>
+                <p class="resumen">{noticia.resumen}</p>
+                <div class="noticia-footer">
+                  <div class="tags">
+                    {noticia.tags.map(tag => (
+                      <span class="tag">#{tag}</span>
+                    ))}
+                  </div>
+                  <a href={`/noticias/${noticia.id}`} class="leer-mas">
+                    Leer más →
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <section class="newsletter-section">
+      <div class="container">
+        <div class="newsletter-box">
+          <h2>📧 Suscríbete a nuestro boletín</h2>
+          <p>Recibe las últimas noticias y actualizaciones de TRASO directamente en tu correo</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Tu correo electrónico" required />
+            <button type="submit" class="btn-subscribe">Suscribirme</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  // Filtrado de noticias
+  document.addEventListener('DOMContentLoaded', () => {
+    const filtrosBtns = document.querySelectorAll('.filtro-btn');
+    const noticiasCards = document.querySelectorAll('.noticia-card');
+
+    filtrosBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button
+        filtrosBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const categoria = (btn as HTMLElement).dataset.categoria;
+
+        // Filter cards
+        noticiasCards.forEach(card => {
+          const cardElement = card as HTMLElement;
+          if (categoria === 'todas' || cardElement.dataset.categoria === categoria) {
+            cardElement.style.display = 'block';
+            cardElement.style.animation = 'fadeIn 0.3s ease';
+          } else {
+            cardElement.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Newsletter form
+    const newsletterForm = document.querySelector('.newsletter-form') as HTMLFormElement;
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = (newsletterForm.querySelector('input[type="email"]') as HTMLInputElement).value;
+        alert(`¡Gracias por suscribirte! Te enviaremos novedades a ${email}`);
+        newsletterForm.reset();
+      });
+    }
+  });
+</script>
+
+<style>
+  .noticias-page {
+    min-height: 100vh;
+    background: #f8f9fa;
+  }
+
+  .hero-noticias {
+    background: linear-gradient(135deg, #3B5998 0%, #2d4373 100%);
+    color: white;
+    padding: 120px 20px 80px;
+    text-align: center;
+  }
+
+  .hero-noticias h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-noticias .subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Filtros */
+  .filtros-section {
+    padding: 30px 20px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .filtros {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filtro-btn {
+    padding: 10px 25px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #555;
+  }
+
+  .filtro-btn:hover {
+    border-color: #3B5998;
+    color: #3B5998;
+  }
+
+  .filtro-btn.active {
+    background: linear-gradient(135deg, #3B5998 0%, #2d4373 100%);
+    color: white;
+    border-color: #3B5998;
+  }
+
+  /* Grid de Noticias */
+  .noticias-grid-section {
+    padding: 60px 20px;
+  }
+
+  .noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+  }
+
+  .noticia-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .noticia-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+
+  .noticia-imagen {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .noticia-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .noticia-card:hover .noticia-imagen img {
+    transform: scale(1.1);
+  }
+
+  .categoria-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(59, 89, 152, 0.9);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .noticia-contenido {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .noticia-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .noticia-contenido h2 {
+    font-size: 1.4rem;
+    color: #2d4373;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .resumen {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .noticia-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.8rem;
+    color: #3B5998;
+    background: #f0f4ff;
+    padding: 4px 10px;
+    border-radius: 12px;
+  }
+
+  .leer-mas {
+    color: #3B5998;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .leer-mas:hover {
+    color: #2d4373;
+    transform: translateX(5px);
+  }
+
+  /* Newsletter */
+  .newsletter-section {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #2d4373 0%, #1e2d4f 100%);
+  }
+
+  .newsletter-box {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+  }
+
+  .newsletter-box h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-box p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .btn-subscribe {
+    padding: 15px 30px;
+    background: #27AE60;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .btn-subscribe:hover {
+    background: #229954;
+    transform: translateY(-2px);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-noticias h1 {
+      font-size: 2rem;
+    }
+
+    .noticias-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+
+    .filtros {
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .filtro-btn {
+      white-space: nowrap;
+    }
+  }
+</style>

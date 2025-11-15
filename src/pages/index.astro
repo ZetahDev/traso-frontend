@@ -6,10 +6,514 @@ import CTASection from "@components/CTASection.astro";
 ---
 
 <LandingLayout
-  title="TRASO - Plataforma para Movimientos Sociales"
-  description="Empoderamos tu movimiento social con tecnología. Gestión electoral, comunicación directa y análisis de datos en una sola plataforma."
+  title="TRASO - Movimiento de Transformación Social"
+  description="Únete a TRASO, el movimiento ciudadano que construye un país más justo, democrático y sostenible. Afíliate, participa y transforma."
 >
   <HeroSection />
   <FeaturesSection />
+
+  <!-- Sección de Afiliación Rápida -->
+  <section class="quick-join">
+    <div class="quick-join-container">
+      <div class="quick-join-content">
+        <h2>🌟 Únete a la Transformación</h2>
+        <p>
+          Miles de colombianos ya forman parte de TRASO. Afíliate en menos de 5
+          minutos y empieza a construir el país que soñamos.
+        </p>
+        <div class="quick-join-benefits">
+          <div class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span>Formación política gratuita</span>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span>Voz y voto en asambleas</span>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span>Red nacional de activistas</span>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span>Participa en propuestas</span>
+          </div>
+        </div>
+        <a href="/afiliacion" class="btn-join">Afiliarme Ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Últimas Noticias -->
+  <section class="latest-news">
+    <div class="news-container">
+      <div class="section-header">
+        <h2>📰 Últimas Noticias</h2>
+        <a href="/noticias" class="view-all">Ver todas →</a>
+      </div>
+      <div class="news-grid">
+        <article class="news-card">
+          <div class="news-image">
+            <img
+              src="https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=400"
+              alt="Asamblea Nacional"
+            />
+            <span class="news-category org">Organización</span>
+          </div>
+          <div class="news-content">
+            <h3>Conclusiones de la VII Asamblea Nacional de TRASO</h3>
+            <p class="news-meta">10 de noviembre, 2025</p>
+            <p class="news-excerpt">
+              Más de 500 delegados de todo el país se reunieron para definir la
+              hoja de ruta del movimiento...
+            </p>
+            <a href="/noticias/asamblea-nacional-conclusiones" class="read-more"
+              >Leer más →</a
+            >
+          </div>
+        </article>
+
+        <article class="news-card">
+          <div class="news-image">
+            <img
+              src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400"
+              alt="Formación"
+            />
+            <span class="news-category form">Formación</span>
+          </div>
+          <div class="news-content">
+            <h3>Nueva Escuela de Liderazgo Comunitario 2025</h3>
+            <p class="news-meta">5 de noviembre, 2025</p>
+            <p class="news-excerpt">
+              Abrimos inscripciones para nuestro programa de formación política
+              más ambicioso...
+            </p>
+            <a href="/noticias/escuela-liderazgo-2025" class="read-more"
+              >Leer más →</a
+            >
+          </div>
+        </article>
+
+        <article class="news-card">
+          <div class="news-image">
+            <img
+              src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=400"
+              alt="Eventos"
+            />
+            <span class="news-category event">Eventos</span>
+          </div>
+          <div class="news-content">
+            <h3>Gran Movilización por la Justicia Social</h3>
+            <p class="news-meta">1 de noviembre, 2025</p>
+            <p class="news-excerpt">
+              Miles marcharon en las principales ciudades exigiendo políticas
+              públicas más equitativas...
+            </p>
+            <a href="/noticias/movilizacion-justicia-social" class="read-more"
+              >Leer más →</a
+            >
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Próximos Eventos -->
+  <section class="upcoming-events">
+    <div class="events-container">
+      <div class="section-header">
+        <h2>📅 Próximos Eventos</h2>
+        <a href="/eventos" class="view-all">Ver calendario →</a>
+      </div>
+      <div class="events-list">
+        <div class="event-card">
+          <div class="event-date">
+            <span class="day">25</span>
+            <span class="month">NOV</span>
+          </div>
+          <div class="event-info">
+            <h3>Asamblea Nacional Extraordinaria</h3>
+            <p class="event-location">
+              📍 Bogotá - Teatro Jorge Eliécer Gaitán
+            </p>
+            <p class="event-time">🕐 9:00 AM - 5:00 PM</p>
+            <span class="event-badge presencial">Presencial</span>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-date">
+            <span class="day">28</span>
+            <span class="month">NOV</span>
+          </div>
+          <div class="event-info">
+            <h3>Taller: Construcción de Propuestas Participativas</h3>
+            <p class="event-location">📍 Virtual - Zoom</p>
+            <p class="event-time">🕐 6:00 PM - 8:00 PM</p>
+            <span class="event-badge virtual">Virtual</span>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-date">
+            <span class="day">5</span>
+            <span class="month">DIC</span>
+          </div>
+          <div class="event-info">
+            <h3>Foro: Género y Política en el Siglo XXI</h3>
+            <p class="event-location">
+              📍 Medellín - Biblioteca Pública Piloto
+            </p>
+            <p class="event-time">🕐 3:00 PM - 7:00 PM</p>
+            <span class="event-badge hibrido">Híbrido</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <CTASection />
 </LandingLayout>
+
+<style>
+  /* Quick Join Section */
+  .quick-join {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 5rem 2rem;
+    color: white;
+  }
+
+  .quick-join-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .quick-join-content {
+    text-align: center;
+  }
+
+  .quick-join-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .quick-join-content > p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+  }
+
+  .quick-join-benefits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .benefit-icon {
+    background: rgba(255, 255, 255, 0.3);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: bold;
+  }
+
+  .btn-join {
+    display: inline-block;
+    background: white;
+    color: #667eea;
+    padding: 1.2rem 3rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+  }
+
+  .btn-join:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Latest News Section */
+  .latest-news {
+    padding: 5rem 2rem;
+    background: #f7fafc;
+  }
+
+  .news-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: #1a1a2e;
+  }
+
+  .view-all {
+    color: #3b5998;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+  }
+
+  .view-all:hover {
+    color: #2d4373;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .news-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+  }
+
+  .news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .news-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .news-card:hover .news-image img {
+    transform: scale(1.05);
+  }
+
+  .news-category {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .news-category.org {
+    background: #3b5998;
+    color: white;
+  }
+
+  .news-category.form {
+    background: #f39c12;
+    color: white;
+  }
+
+  .news-category.event {
+    background: #e74c3c;
+    color: white;
+  }
+
+  .news-content {
+    padding: 1.5rem;
+  }
+
+  .news-content h3 {
+    font-size: 1.3rem;
+    color: #1a1a2e;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .news-meta {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .news-excerpt {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .read-more {
+    color: #3b5998;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .read-more:hover {
+    color: #2d4373;
+  }
+
+  /* Upcoming Events Section */
+  .upcoming-events {
+    padding: 5rem 2rem;
+    background: white;
+  }
+
+  .events-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .event-card {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: #f7fafc;
+    border-radius: 12px;
+    border-left: 4px solid #3b5998;
+    transition: all 0.3s;
+  }
+
+  .event-card:hover {
+    background: #edf2f7;
+    transform: translateX(5px);
+  }
+
+  .event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .event-date .day {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  .event-date .month {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+  }
+
+  .event-info {
+    flex: 1;
+  }
+
+  .event-info h3 {
+    font-size: 1.3rem;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-location,
+  .event-time {
+    color: #4a5568;
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+  }
+
+  .event-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .event-badge.presencial {
+    background: #e8f5e9;
+    color: #27ae60;
+  }
+
+  .event-badge.virtual {
+    background: #e3f2fd;
+    color: #2196f3;
+  }
+
+  .event-badge.hibrido {
+    background: #fff3e0;
+    color: #ff9800;
+  }
+
+  @media (max-width: 768px) {
+    .quick-join-content h2 {
+      font-size: 2rem;
+    }
+
+    .quick-join-benefits {
+      grid-template-columns: 1fr;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .news-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .event-card {
+      flex-direction: column;
+    }
+
+    .event-date {
+      min-width: 100%;
+      padding: 0.75rem;
+    }
+  }
+</style>

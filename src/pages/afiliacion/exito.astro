@@ -1,0 +1,459 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="¡Bienvenido a TRASO!">
+  <main class="exito-page">
+    <section class="exito-hero">
+      <div class="container">
+        <div class="checkmark-circle">
+          <div class="checkmark">✓</div>
+        </div>
+
+        <h1>¡Felicitaciones!</h1>
+        <p class="mensaje-principal">
+          Te has unido exitosamente a TRASO - Transformación Social con
+          Organización
+        </p>
+
+        <div class="info-box">
+          <h2>¿Qué sigue ahora?</h2>
+          <div class="pasos-siguientes">
+            <div class="paso">
+              <div class="paso-numero">1</div>
+              <div class="paso-contenido">
+                <h3>Revisa tu correo</h3>
+                <p>
+                  Te hemos enviado un email de bienvenida con tu certificado
+                  digital de afiliación y los próximos pasos.
+                </p>
+              </div>
+            </div>
+
+            <div class="paso">
+              <div class="paso-numero">2</div>
+              <div class="paso-contenido">
+                <h3>Completa tu perfil</h3>
+                <p>
+                  Accede a tu portal de militante para completar tu perfil y
+                  acceder a todos los recursos.
+                </p>
+              </div>
+            </div>
+
+            <div class="paso">
+              <div class="paso-numero">3</div>
+              <div class="paso-contenido">
+                <h3>Únete a los grupos</h3>
+                <p>
+                  Conéctate con tu comité territorial y las comisiones que
+                  seleccionaste.
+                </p>
+              </div>
+            </div>
+
+            <div class="paso">
+              <div class="paso-numero">4</div>
+              <div class="paso-contenido">
+                <h3>Empieza a participar</h3>
+                <p>
+                  Revisa el calendario de eventos y comienza tu formación en
+                  nuestra Escuela Política.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acciones-rapidas">
+          <h3>Acciones Rápidas</h3>
+          <div class="acciones-grid">
+            <a href="/login" class="accion-card">
+              <div class="accion-icon">🔐</div>
+              <h4>Acceder a Mi Portal</h4>
+              <p>Inicia sesión con tu usuario</p>
+            </a>
+
+            <a href="/eventos" class="accion-card">
+              <div class="accion-icon">📅</div>
+              <h4>Ver Eventos</h4>
+              <p>Próximas actividades</p>
+            </a>
+
+            <a href="/formacion" class="accion-card">
+              <div class="accion-icon">🎓</div>
+              <h4>Escuela de Formación</h4>
+              <p>Cursos disponibles</p>
+            </a>
+
+            <a
+              href="https://wa.me/573001234567"
+              target="_blank"
+              class="accion-card"
+            >
+              <div class="accion-icon">💬</div>
+              <h4>Únete a WhatsApp</h4>
+              <p>Comunidad oficial</p>
+            </a>
+          </div>
+        </div>
+
+        <div class="social-share">
+          <h3>¡Invita a tus amigos!</h3>
+          <p>Comparte tu decisión de ser parte del cambio</p>
+          <div class="share-buttons">
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=https://traso.com/afiliacion"
+              target="_blank"
+              class="share-btn facebook"
+            >
+              <span>📘</span> Facebook
+            </a>
+            <a
+              href="https://twitter.com/intent/tweet?text=Me%20acabo%20de%20afiliar%20a%20TRASO%20-%20Transformación%20Social%20con%20Organización&url=https://traso.com"
+              target="_blank"
+              class="share-btn twitter"
+            >
+              <span>🐦</span> Twitter
+            </a>
+            <a
+              href="https://api.whatsapp.com/send?text=Me%20acabo%20de%20afiliar%20a%20TRASO%20para%20ser%20parte%20del%20cambio%20social%20que%20Colombia%20necesita.%20¡Únete!%20https://traso.com/afiliacion"
+              target="_blank"
+              class="share-btn whatsapp"
+            >
+              <span>💬</span> WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div class="cta-final">
+          <a href="/" class="btn btn-primary">Volver al Inicio</a>
+          <a href="/nuestro-movimiento" class="btn btn-outline"
+            >Conocer Más sobre TRASO</a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .exito-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+
+  .exito-hero {
+    padding: 80px 20px;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .checkmark-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s ease;
+    box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .checkmark {
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+    animation: checkmark 0.5s ease 0.3s both;
+  }
+
+  @keyframes checkmark {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  h1 {
+    font-size: 3rem;
+    color: #2d4373;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.6s ease;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .mensaje-principal {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.6s ease 0.2s both;
+  }
+
+  .info-box {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    animation: fadeInUp 0.6s ease 0.4s both;
+  }
+
+  .info-box h2 {
+    font-size: 2rem;
+    color: #2d4373;
+    margin-bottom: 30px;
+  }
+
+  .pasos-siguientes {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    text-align: left;
+  }
+
+  .paso {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .paso-numero {
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .paso-contenido h3 {
+    font-size: 1.3rem;
+    color: #2d4373;
+    margin-bottom: 8px;
+  }
+
+  .paso-contenido p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* Acciones Rápidas */
+  .acciones-rapidas {
+    margin-bottom: 40px;
+    animation: fadeInUp 0.6s ease 0.6s both;
+  }
+
+  .acciones-rapidas h3 {
+    font-size: 1.8rem;
+    color: #2d4373;
+    margin-bottom: 25px;
+  }
+
+  .acciones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .accion-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .accion-card:hover {
+    transform: translateY(-5px);
+    border-color: #3b5998;
+    box-shadow: 0 8px 20px rgba(59, 89, 152, 0.2);
+  }
+
+  .accion-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+
+  .accion-card h4 {
+    font-size: 1.1rem;
+    color: #2d4373;
+    margin-bottom: 8px;
+  }
+
+  .accion-card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+  }
+
+  /* Social Share */
+  .social-share {
+    margin-bottom: 40px;
+    animation: fadeInUp 0.6s ease 0.8s both;
+  }
+
+  .social-share h3 {
+    font-size: 1.8rem;
+    color: #2d4373;
+    margin-bottom: 10px;
+  }
+
+  .social-share p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .share-btn.facebook {
+    background: #1877f2;
+  }
+
+  .share-btn.twitter {
+    background: #1da1f2;
+  }
+
+  .share-btn.whatsapp {
+    background: #25d366;
+  }
+
+  /* CTA Final */
+  .cta-final {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.6s ease 1s both;
+  }
+
+  .btn {
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(59, 89, 152, 0.4);
+  }
+
+  .btn-outline {
+    background: white;
+    color: #3b5998;
+    border: 2px solid #3b5998;
+  }
+
+  .btn-outline:hover {
+    background: #3b5998;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .mensaje-principal {
+      font-size: 1.1rem;
+    }
+
+    .info-box {
+      padding: 25px 20px;
+    }
+
+    .info-box h2 {
+      font-size: 1.5rem;
+    }
+
+    .paso {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .acciones-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-final {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>

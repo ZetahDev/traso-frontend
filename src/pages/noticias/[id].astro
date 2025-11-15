@@ -1,0 +1,487 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const { id } = Astro.params;
+
+// Datos de ejemplo (esto vendría del backend)
+const noticiasData = {
+  "1": {
+    titulo: "TRASO alcanza los 1,000 afiliados en todo el país",
+    categoria: "Organización",
+    fecha: "2025-11-10",
+    autor: "Dirección Nacional",
+    imagen:
+      "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1200&h=600&fit=crop",
+    contenido: `
+      <p class="intro">Este mes alcanzamos una cifra histórica: <strong>1,000 afiliados activos</strong> en más de 20 municipios del país. Este logro representa no solo números, sino el compromiso real de miles de colombianos con la construcción de una sociedad más justa y equitativa.</p>
+      
+      <p>Desde nuestros inicios en 2023, hemos trabajado incansablemente por construir un movimiento político verdaderamente participativo y democrático. Hoy, con presencia en territorios urbanos y rurales, demostramos que la organización comunitaria es posible y necesaria.</p>
+      
+      <h2>El camino recorrido</h2>
+      <p>Hace apenas dos años, éramos un grupo pequeño de activistas sociales con un sueño: construir una plataforma política que pusiera a las personas en el centro. Hoy, somos un movimiento en expansión con estructuras territoriales consolidadas y miles de personas comprometidas.</p>
+      
+      <h3>Logros destacados:</h3>
+      <ul>
+        <li><strong>1,000+ militantes activos:</strong> Personas comprometidas que participan regularmente en nuestras actividades</li>
+        <li><strong>20+ municipios con presencia:</strong> Desde grandes ciudades hasta pequeños pueblos rurales</li>
+        <li><strong>50+ líderes territoriales formados:</strong> Capacitados en organización comunitaria y liderazgo político</li>
+        <li><strong>15 comités municipales constituidos:</strong> Estructuras organizativas funcionando democráticamente</li>
+        <li><strong>8 comisiones temáticas activas:</strong> Trabajando en propuestas concretas para el país</li>
+      </ul>
+      
+      <h2>Testimonios de nuestros militantes</h2>
+      <blockquote>
+        "Unirme a TRASO cambió mi vida. Por fin encontré un espacio donde mi voz cuenta y donde puedo trabajar por cambios reales en mi comunidad."
+        <cite>- María González, Líder Territorial en Bogotá</cite>
+      </blockquote>
+      
+      <blockquote>
+        "Lo que más valoro de TRASO es la transparencia. Todos sabemos qué se decide, cómo se decide y por qué. Eso es democracia real."
+        <cite>- Carlos Martínez, Militante en Medellín</cite>
+      </blockquote>
+      
+      <h2>¿Qué sigue?</h2>
+      <p>Este logro es solo el comienzo. Nuestras metas para 2026 incluyen:</p>
+      <ol>
+        <li>Alcanzar presencia en 50 municipios</li>
+        <li>Llegar a 5,000 afiliados activos</li>
+        <li>Formar 200 líderes territoriales</li>
+        <li>Consolidar alianzas con organizaciones sociales afines</li>
+        <li>Participar activamente en procesos electorales con candidaturas propias</li>
+      </ol>
+      
+      <p>Agradecemos a cada persona que ha decidido ser parte de este sueño colectivo. A los que organizan en sus barrios, a los que estudian en nuestra escuela de formación, a los que participan en asambleas y comisiones. <strong>¡Esto apenas comienza!</strong></p>
+      
+      <p class="cta-text">¿Aún no te has unido? <a href="/afiliacion">Afiliate aquí</a> y sé parte de la transformación que Colombia necesita.</p>
+    `,
+    tags: ["hito", "crecimiento", "militancia"],
+  },
+  // Más noticias se agregarían aquí
+};
+
+const noticia = noticiasData[id as keyof typeof noticiasData];
+
+if (!noticia) {
+  return Astro.redirect("/noticias");
+}
+---
+
+<Layout title={`${noticia.titulo} - TRASO`}>
+  <main class="noticia-detalle-page">
+    <!-- Hero Image -->
+    <div class="hero-image">
+      <img src={noticia.imagen} alt={noticia.titulo} />
+      <div class="hero-overlay">
+        <div class="container">
+          <span class="categoria-badge">{noticia.categoria}</span>
+          <h1>{noticia.titulo}</h1>
+          <div class="meta-info">
+            <span class="fecha"
+              >{
+                new Date(noticia.fecha).toLocaleDateString("es-CO", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              }</span
+            >
+            <span class="separador">•</span>
+            <span class="autor">Por {noticia.autor}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <article class="contenido-section">
+      <div class="container-article">
+        <div class="article-content" set:html={noticia.contenido} />
+
+        <!-- Tags -->
+        <div class="tags-section">
+          <strong>Etiquetas:</strong>
+          <div class="tags">
+            {noticia.tags.map((tag: string) => <span class="tag">#{tag}</span>)}
+          </div>
+        </div>
+
+        <!-- Compartir -->
+        <div class="compartir-section">
+          <h3>Compartir esta noticia:</h3>
+          <div class="share-buttons">
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=https://traso.com/noticias/${id}`}
+              target="_blank"
+              class="share-btn facebook"
+            >
+              📘 Facebook
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(noticia.titulo)}&url=https://traso.com/noticias/${id}`}
+              target="_blank"
+              class="share-btn twitter"
+            >
+              🐦 Twitter
+            </a>
+            <a
+              href={`https://api.whatsapp.com/send?text=${encodeURIComponent(noticia.titulo + " - https://traso.com/noticias/" + id)}`}
+              target="_blank"
+              class="share-btn whatsapp"
+            >
+              💬 WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <h2>¿Te interesa lo que hacemos?</h2>
+        <p>Únete a TRASO y sé parte del cambio</p>
+        <div class="cta-buttons">
+          <a href="/afiliacion" class="btn btn-primary">Afiliarme</a>
+          <a href="/noticias" class="btn btn-outline">Ver más noticias</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .noticia-detalle-page {
+    min-height: 100vh;
+  }
+
+  /* Hero Image */
+  .hero-image {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    color: white;
+    padding: 80px 20px 40px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .categoria-badge {
+    display: inline-block;
+    background: #3b5998;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .hero-overlay h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    line-height: 1.3;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .meta-info {
+    font-size: 1rem;
+    opacity: 0.95;
+  }
+
+  .separador {
+    margin: 0 10px;
+  }
+
+  /* Contenido */
+  .contenido-section {
+    padding: 60px 20px;
+    background: white;
+  }
+
+  .container-article {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  .article-content :global(.intro) {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  .article-content :global(h2) {
+    font-size: 2rem;
+    color: #2d4373;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid #3b5998;
+    padding-bottom: 0.5rem;
+  }
+
+  .article-content :global(h3) {
+    font-size: 1.5rem;
+    color: #2d4373;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .article-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin-bottom: 2rem;
+    padding-left: 30px;
+  }
+
+  .article-content :global(li) {
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+
+  .article-content :global(strong) {
+    color: #2d4373;
+    font-weight: 600;
+  }
+
+  .article-content :global(blockquote) {
+    border-left: 4px solid #3b5998;
+    padding: 20px 30px;
+    margin: 2rem 0;
+    background: #f8f9fa;
+    font-style: italic;
+    color: #555;
+  }
+
+  .article-content :global(cite) {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: #888;
+    font-weight: 600;
+  }
+
+  .article-content :global(.cta-text) {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8eef5 100%);
+    padding: 25px 30px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 3rem;
+    border: 2px solid #3b5998;
+  }
+
+  .article-content :global(.cta-text a) {
+    color: #3b5998;
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 2px solid #3b5998;
+  }
+
+  .article-content :global(.cta-text a:hover) {
+    color: #2d4373;
+    border-bottom-color: #2d4373;
+  }
+
+  /* Tags */
+  .tags-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .tags-section strong {
+    color: #2d4373;
+  }
+
+  .tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.9rem;
+    color: #3b5998;
+    background: #f0f4ff;
+    padding: 6px 15px;
+    border-radius: 15px;
+    font-weight: 500;
+  }
+
+  /* Compartir */
+  .compartir-section {
+    margin-top: 3rem;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .compartir-section h3 {
+    font-size: 1.3rem;
+    color: #2d4373;
+    margin-bottom: 20px;
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .share-btn.facebook {
+    background: #1877f2;
+  }
+
+  .share-btn.twitter {
+    background: #1da1f2;
+  }
+
+  .share-btn.whatsapp {
+    background: #25d366;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    color: white;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: #e74c3c;
+    color: white;
+    border: 2px solid #e74c3c;
+  }
+
+  .btn-primary:hover {
+    background: #c0392b;
+    border-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-outline:hover {
+    background: white;
+    color: #2d4373;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-image {
+      height: 350px;
+    }
+
+    .hero-overlay h1 {
+      font-size: 1.8rem;
+    }
+
+    .article-content {
+      font-size: 1rem;
+    }
+
+    .article-content :global(h2) {
+      font-size: 1.6rem;
+    }
+
+    .cta-section h2 {
+      font-size: 2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>

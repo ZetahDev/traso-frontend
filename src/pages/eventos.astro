@@ -1,0 +1,816 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Eventos de ejemplo (esto vendría del backend)
+const eventos = [
+  {
+    id: 1,
+    titulo: "Asamblea Nacional TRASO 2025",
+    tipo: "Asamblea",
+    fecha: "2025-12-15",
+    horaInicio: "09:00",
+    horaFin: "17:00",
+    lugar: "Centro de Convenciones, Bogotá",
+    modalidad: "Presencial",
+    descripcion:
+      "Gran asamblea nacional donde se definirán las líneas políticas para 2026 y se elegirá la nueva Dirección Nacional.",
+    cupos: 500,
+    inscritos: 347,
+    imagen:
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=400&fit=crop",
+    destacado: true,
+  },
+  {
+    id: 2,
+    titulo: "Taller: Liderazgo Comunitario",
+    tipo: "Formación",
+    fecha: "2025-11-25",
+    horaInicio: "14:00",
+    horaFin: "18:00",
+    lugar: "Virtual - Zoom",
+    modalidad: "Virtual",
+    descripcion:
+      "Taller práctico sobre herramientas para organizar y movilizar comunidades. Cupos limitados.",
+    cupos: 50,
+    inscritos: 42,
+    imagen:
+      "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=400&fit=crop",
+    destacado: false,
+  },
+  {
+    id: 3,
+    titulo: "Movilización por la Justicia Social",
+    tipo: "Movilización",
+    fecha: "2025-11-20",
+    horaInicio: "10:00",
+    horaFin: "14:00",
+    lugar: "Plaza de Bolívar, Bogotá",
+    modalidad: "Presencial",
+    descripcion:
+      "Marcha pacífica por la justicia social y contra la desigualdad. Todos invitados.",
+    cupos: null,
+    inscritos: null,
+    imagen:
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=400&fit=crop",
+    destacado: true,
+  },
+  {
+    id: 4,
+    titulo: "Reunión Comisión de Medio Ambiente",
+    tipo: "Comisión",
+    fecha: "2025-11-18",
+    horaInicio: "19:00",
+    horaFin: "21:00",
+    lugar: "Virtual - Google Meet",
+    modalidad: "Virtual",
+    descripcion:
+      "Sesión de trabajo para revisar propuestas ambientales y planificar jornada de reforestación.",
+    cupos: null,
+    inscritos: null,
+    imagen:
+      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=400&fit=crop",
+    destacado: false,
+  },
+  {
+    id: 5,
+    titulo: "Foro: Género y Política en Colombia",
+    tipo: "Foro",
+    fecha: "2025-12-01",
+    horaInicio: "15:00",
+    horaFin: "19:00",
+    lugar: "Universidad Nacional, Medellín",
+    modalidad: "Híbrido",
+    descripcion:
+      "Panel de expertas sobre participación política de las mujeres y equidad de género.",
+    cupos: 200,
+    inscritos: 156,
+    imagen:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop",
+    destacado: false,
+  },
+  {
+    id: 6,
+    titulo: "Asamblea Territorial Antioquia",
+    tipo: "Asamblea",
+    fecha: "2025-11-30",
+    horaInicio: "09:00",
+    horaFin: "13:00",
+    lugar: "Parque Lleras, Medellín",
+    modalidad: "Presencial",
+    descripcion:
+      "Asamblea territorial para definir prioridades y estrategias en Antioquia.",
+    cupos: 150,
+    inscritos: 98,
+    imagen:
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=400&fit=crop",
+    destacado: false,
+  },
+];
+
+const tiposEvento = [...new Set(eventos.map((e) => e.tipo))];
+const modalidades = [...new Set(eventos.map((e) => e.modalidad))];
+
+// Agrupar eventos por mes
+const eventosPorMes = eventos.reduce(
+  (acc, evento) => {
+    const fecha = new Date(evento.fecha);
+    const mes = fecha.toLocaleDateString("es-CO", {
+      month: "long",
+      year: "numeric",
+    });
+    if (!acc[mes]) acc[mes] = [];
+    acc[mes].push(evento);
+    return acc;
+  },
+  {} as Record<string, typeof eventos>
+);
+---
+
+<Layout title="Eventos - TRASO">
+  <main class="eventos-page">
+    <!-- Hero Section -->
+    <section class="hero-eventos">
+      <div class="container">
+        <h1>📅 Agenda de Eventos</h1>
+        <p class="subtitle">
+          Participa en nuestras actividades, asambleas, talleres y
+          movilizaciones
+        </p>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="filtros-section">
+      <div class="container">
+        <div class="filtros-group">
+          <div class="filtro">
+            <label>Tipo de evento:</label>
+            <select id="filtroTipo" class="filtro-select">
+              <option value="todos">Todos</option>
+              {tiposEvento.map((tipo) => <option value={tipo}>{tipo}</option>)}
+            </select>
+          </div>
+
+          <div class="filtro">
+            <label>Modalidad:</label>
+            <select id="filtroModalidad" class="filtro-select">
+              <option value="todos">Todos</option>
+              {modalidades.map((mod) => <option value={mod}>{mod}</option>)}
+            </select>
+          </div>
+
+          <button id="btnResetFiltros" class="btn-reset">Limpiar filtros</button
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Eventos Destacados -->
+    {
+      eventos.some((e) => e.destacado) && (
+        <section class="destacados-section">
+          <div class="container">
+            <h2>⭐ Eventos Destacados</h2>
+            <div class="destacados-grid">
+              {eventos
+                .filter((e) => e.destacado)
+                .map((evento) => (
+                  <div
+                    class="evento-destacado"
+                    data-tipo={evento.tipo}
+                    data-modalidad={evento.modalidad}
+                  >
+                    <div class="evento-imagen">
+                      <img src={evento.imagen} alt={evento.titulo} />
+                      <div class="badges">
+                        <span class="badge tipo">{evento.tipo}</span>
+                        <span class="badge modalidad">{evento.modalidad}</span>
+                      </div>
+                    </div>
+                    <div class="evento-info">
+                      <h3>{evento.titulo}</h3>
+                      <div class="evento-detalles">
+                        <div class="detalle">
+                          <span class="icon">📅</span>
+                          <span>
+                            {new Date(evento.fecha).toLocaleDateString(
+                              "es-CO",
+                              {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )}
+                          </span>
+                        </div>
+                        <div class="detalle">
+                          <span class="icon">🕐</span>
+                          <span>
+                            {evento.horaInicio} - {evento.horaFin}
+                          </span>
+                        </div>
+                        <div class="detalle">
+                          <span class="icon">📍</span>
+                          <span>{evento.lugar}</span>
+                        </div>
+                      </div>
+                      <p class="descripcion">{evento.descripcion}</p>
+                      {evento.cupos && (
+                        <div class="cupos-bar">
+                          <div class="cupos-info">
+                            <span>
+                              {evento.inscritos}/{evento.cupos} inscritos
+                            </span>
+                            <span>
+                              {evento.cupos - (evento.inscritos || 0)} cupos
+                              disponibles
+                            </span>
+                          </div>
+                          <div class="progress-bar">
+                            <div
+                              class="progress"
+                              style={`width: ${((evento.inscritos || 0) / evento.cupos) * 100}%`}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      <a href={`/eventos/${evento.id}`} class="btn btn-primary">
+                        Inscribirme
+                      </a>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Calendario de Eventos -->
+    <section class="calendario-section">
+      <div class="container">
+        <h2>Todos los Eventos</h2>
+
+        {
+          Object.entries(eventosPorMes).map(([mes, eventosDelMes]) => (
+            <div class="mes-grupo">
+              <h3 class="mes-titulo">
+                {mes.charAt(0).toUpperCase() + mes.slice(1)}
+              </h3>
+              <div class="eventos-lista">
+                {eventosDelMes.map((evento) => (
+                  <div
+                    class="evento-card"
+                    data-tipo={evento.tipo}
+                    data-modalidad={evento.modalidad}
+                  >
+                    <div class="evento-fecha">
+                      <div class="dia">{new Date(evento.fecha).getDate()}</div>
+                      <div class="mes-corto">
+                        {new Date(evento.fecha).toLocaleDateString("es-CO", {
+                          month: "short",
+                        })}
+                      </div>
+                    </div>
+                    <div class="evento-contenido">
+                      <div class="evento-header">
+                        <h4>{evento.titulo}</h4>
+                        <div class="badges-small">
+                          <span class="badge-small tipo">{evento.tipo}</span>
+                          <span class="badge-small modalidad">
+                            {evento.modalidad}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="evento-meta">
+                        <span>
+                          🕐 {evento.horaInicio} - {evento.horaFin}
+                        </span>
+                        <span>📍 {evento.lugar}</span>
+                      </div>
+                      <p class="evento-desc">{evento.descripcion}</p>
+                      {evento.cupos && (
+                        <div class="cupos-inline">
+                          <span class="cupos-texto">
+                            {evento.inscritos}/{evento.cupos} inscritos
+                          </span>
+                          <span class="cupos-disponibles">
+                            {evento.cupos - (evento.inscritos || 0) > 0
+                              ? `${evento.cupos - (evento.inscritos || 0)} cupos disponibles`
+                              : "¡Cupos agotados!"}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div class="evento-accion">
+                      <a
+                        href={`/eventos/${evento.id}`}
+                        class="btn btn-inscribir"
+                      >
+                        {evento.cupos &&
+                        evento.inscritos &&
+                        evento.inscritos >= evento.cupos
+                          ? "Lista de espera"
+                          : "Inscribirme"}
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-eventos">
+      <div class="container">
+        <h2>¿Quieres proponer un evento?</h2>
+        <p>
+          Si tienes una idea para un evento, taller o actividad en tu
+          territorio, háznoslo saber
+        </p>
+        <a href="/contacto" class="btn btn-cta">Proponer Evento</a>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  // Filtrado de eventos
+  document.addEventListener("DOMContentLoaded", () => {
+    const filtroTipo = document.getElementById(
+      "filtroTipo"
+    ) as HTMLSelectElement;
+    const filtroModalidad = document.getElementById(
+      "filtroModalidad"
+    ) as HTMLSelectElement;
+    const btnReset = document.getElementById("btnResetFiltros");
+    const eventosCards = document.querySelectorAll("[data-tipo]");
+
+    function filtrarEventos() {
+      const tipoSeleccionado = filtroTipo.value;
+      const modalidadSeleccionada = filtroModalidad.value;
+
+      eventosCards.forEach((card) => {
+        const tipo = card.getAttribute("data-tipo");
+        const modalidad = card.getAttribute("data-modalidad");
+
+        const cumpleTipo =
+          tipoSeleccionado === "todos" || tipo === tipoSeleccionado;
+        const cumpleModalidad =
+          modalidadSeleccionada === "todos" ||
+          modalidad === modalidadSeleccionada;
+
+        if (cumpleTipo && cumpleModalidad) {
+          (card as HTMLElement).style.display = "flex";
+        } else {
+          (card as HTMLElement).style.display = "none";
+        }
+      });
+    }
+
+    filtroTipo?.addEventListener("change", filtrarEventos);
+    filtroModalidad?.addEventListener("change", filtrarEventos);
+
+    btnReset?.addEventListener("click", () => {
+      if (filtroTipo) filtroTipo.value = "todos";
+      if (filtroModalidad) filtroModalidad.value = "todos";
+      filtrarEventos();
+    });
+  });
+</script>
+
+<style>
+  .eventos-page {
+    min-height: 100vh;
+    background: #f8f9fa;
+  }
+
+  .hero-eventos {
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    color: white;
+    padding: 120px 20px 80px;
+    text-align: center;
+  }
+
+  .hero-eventos h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-eventos .subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Filtros */
+  .filtros-section {
+    padding: 30px 20px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .filtros-group {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .filtro {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filtro label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+  }
+
+  .filtro-select {
+    padding: 10px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    min-width: 200px;
+    cursor: pointer;
+  }
+
+  .btn-reset {
+    padding: 10px 20px;
+    background: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-reset:hover {
+    background: #d0d0d0;
+  }
+
+  /* Destacados */
+  .destacados-section {
+    padding: 60px 20px;
+  }
+
+  .destacados-section h2 {
+    font-size: 2rem;
+    color: #2d4373;
+    margin-bottom: 30px;
+  }
+
+  .destacados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+  }
+
+  .evento-destacado {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .evento-destacado:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .evento-imagen {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .evento-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .badges {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .badge {
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .badge.tipo {
+    background: #3b5998;
+  }
+
+  .badge.modalidad {
+    background: #27ae60;
+  }
+
+  .evento-info {
+    padding: 25px;
+  }
+
+  .evento-info h3 {
+    font-size: 1.6rem;
+    color: #2d4373;
+    margin-bottom: 15px;
+  }
+
+  .evento-detalles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .detalle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+  }
+
+  .detalle .icon {
+    font-size: 1.2rem;
+  }
+
+  .descripcion {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .cupos-bar {
+    margin-bottom: 20px;
+  }
+
+  .cupos-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress {
+    height: 100%;
+    background: linear-gradient(90deg, #27ae60 0%, #229954 100%);
+    transition: width 0.3s ease;
+  }
+
+  /* Calendario */
+  .calendario-section {
+    padding: 60px 20px;
+  }
+
+  .calendario-section h2 {
+    font-size: 2rem;
+    color: #2d4373;
+    margin-bottom: 40px;
+  }
+
+  .mes-grupo {
+    margin-bottom: 50px;
+  }
+
+  .mes-titulo {
+    font-size: 1.5rem;
+    color: #2d4373;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #3b5998;
+  }
+
+  .eventos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .evento-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .evento-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    transform: translateX(5px);
+  }
+
+  .evento-fecha {
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    color: white;
+    border-radius: 10px;
+    padding: 15px 20px;
+    text-align: center;
+    min-width: 80px;
+    height: fit-content;
+  }
+
+  .evento-fecha .dia {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .evento-fecha .mes-corto {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+
+  .evento-contenido {
+    flex: 1;
+  }
+
+  .evento-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .evento-header h4 {
+    font-size: 1.3rem;
+    color: #2d4373;
+    margin: 0;
+  }
+
+  .badges-small {
+    display: flex;
+    gap: 8px;
+  }
+
+  .badge-small {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .badge-small.tipo {
+    background: #3b5998;
+  }
+
+  .badge-small.modalidad {
+    background: #27ae60;
+  }
+
+  .evento-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .evento-desc {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .cupos-inline {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .cupos-disponibles {
+    color: #27ae60;
+  }
+
+  .evento-accion {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(59, 89, 152, 0.4);
+  }
+
+  .btn-inscribir {
+    background: #27ae60;
+    color: white;
+  }
+
+  .btn-inscribir:hover {
+    background: #229954;
+    transform: translateY(-2px);
+  }
+
+  /* CTA */
+  .cta-eventos {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #2d4373 0%, #1e2d4f 100%);
+    color: white;
+    text-align: center;
+  }
+
+  .cta-eventos h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-eventos p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+  }
+
+  .btn-cta {
+    background: #e74c3c;
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+  }
+
+  .btn-cta:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-eventos h1 {
+      font-size: 2rem;
+    }
+
+    .destacados-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .evento-card {
+      flex-direction: column;
+    }
+
+    .evento-fecha {
+      width: 100%;
+    }
+
+    .filtros-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filtro-select {
+      min-width: 100%;
+    }
+  }
+</style>
